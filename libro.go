@@ -14,16 +14,6 @@ type Usuario struct {
 	Cedula     string
 	contrasena string // Encapsulado (minúscula)
 }
-// Estructuras Administrador y Lector heredan lógicamente de Usuario
-type Administrador struct {
-	Usuario
-	NivelAcceso int
-}
-
-type Lector struct {
-	Usuario
-	Suscripto bool
-}
 
 // Estructura Libro con anotaciones para Serialización JSON
 type Libro struct {

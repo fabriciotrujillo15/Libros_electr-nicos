@@ -1,0 +1,50 @@
+USE Biblioteca_DB;
+GO
+
+-- 1. Modificar la tabla Libros cambiando el id a INT y permitiendo que serie_libro acepte NULLs
+CREATE TABLE Libros 
+    (
+     id INT NOT NULL, 
+     titulo VARCHAR (100), 
+     autor VARCHAR (100), 
+     serie_libro VARCHAR (50) NULL, 
+     formato VARCHAR (100), 
+     Usuarios_id VARCHAR (100) NOT NULL 
+    )
+GO
+
+ALTER TABLE Libros ADD CONSTRAINT Libros_PK PRIMARY KEY CLUSTERED (id)
+    WITH (
+    ALLOW_PAGE_LOCKS = ON, 
+    ALLOW_ROW_LOCKS = ON)
+GO
+
+CREATE TABLE Usuarios 
+    (
+     id VARCHAR (100) NOT NULL, 
+     nombre VARCHAR (100), 
+     email VARCHAR (100), 
+     cedula VARCHAR (100), 
+     contrasena VARCHAR (100), 
+     tipo_usuario VARCHAR (100) 
+    )
+GO
+
+ALTER TABLE Usuarios ADD CONSTRAINT Usuarios_PK PRIMARY KEY CLUSTERED (id)
+    WITH (
+    ALLOW_PAGE_LOCKS = ON, 
+    ALLOW_ROW_LOCKS = ON)
+GO
+
+ALTER TABLE Libros 
+    ADD CONSTRAINT Libros_Usuarios_FK FOREIGN KEY 
+    ( 
+     Usuarios_id
+    ) 
+    REFERENCES Usuarios 
+    ( 
+     id 
+    ) 
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION 
+GO

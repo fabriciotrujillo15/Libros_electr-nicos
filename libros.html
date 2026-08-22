@@ -1,0 +1,70 @@
+<!-- Define la plantilla reutilizable "content" que se inyecta en base.html -->
+{{define "content"}}
+<div class="row justify-content-center">
+    <div class="col-lg-12">
+        
+        <!-- Encabezado de la vista con el título y la descripción de la sección -->
+        <div class="mb-4">
+            <h2 class="fw-bold text-dark"><i class="fa-solid fa-rectangle-list text-primary me-2"></i>Listado de Libros Registrados</h2>
+            <p class="text-muted">Consulta, modifica o elimina los libros de la base de datos.</p>
+        </div>
+
+        <!-- Condicional de Go: Verifica si existen libros registrados en la base de datos -->
+        {{if .Libros}}
+            <!-- Bucle range de Go: Recorre cada uno de los libros obtenidos para crear una tarjeta por cada registro -->
+            {{range .Libros}}
+            <div class="card card-custom p-4 mb-3">
+                
+                <!-- Formulario individual para cada libro que envía los datos mediante POST a la ruta de actualizar -->
+                <form action="/libros/actualizar" method="POST" class="row g-3 align-items-center">
+                    
+                    <!-- Campo oculto (hidden) que almacena el ID único del libro para identificar cuál modificar o eliminar -->
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    
+                    <!-- Campo de entrada para modificar el Título del libro  -->
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold text-secondary">Título</label>
+                        <input type="text" class="form-control" name="titulo" value="{{.Titulo}}" required>
+                    </div>
+                    
+                    <!-- Campo de entrada para modificar el Autor del libro  -->
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold text-secondary">Autor</label>
+                        <input type="text" class="form-control" name="autor" value="{{.Autor}}" required>
+                    </div>
+                    
+                    <!-- Campo de entrada para modificar la Serie del libro  -->
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold text-secondary">Serie</label>
+                        <input type="text" class="form-control" name="serie_libro" value="{{.SerieLibro}}">
+                    </div>
+                    
+                    <!-- Campo de entrada para modificar el Formato del libro  -->
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold text-secondary">Formato</label>
+                        <input type="text" class="form-control" name="formato" value="{{.Formato}}">
+                    </div>
+                    
+                    <!-- Contenedor para los botones de acción alineados de forma simétrica -->
+                    <div class="col-md-2 d-flex gap-1 px-1 mt-auto pt-4">
+                        
+                        <!-- Botón para Modificar: Envía el formulario a la ruta por defecto (/libros/actualizar) -->
+                        <button type="submit" class="btn btn-warning btn-sm fw-semibold text-dark shadow-sm w-50 px-0" style="height: 38px;">Modificar</button>
+                        
+                        <!-- Botón para Eliminar: Sobrescribe la acción del formulario usando 'formaction' para ir a /libros/eliminar -->
+                        <!-- Incluye una alerta de confirmación en JavaScript antes de borrar -->
+                        <button type="submit" formaction="/libros/eliminar" class="btn btn-danger btn-sm fw-semibold shadow-sm w-50 px-0" style="height: 38px;" 
+                        onclick="return confirm('¿Estás seguro de eliminar este libro?');">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+            {{end}}
+        {{else}}
+            <!-- Bloque alternativo: Se muestra si la lista de libros está vacía -->
+            <div class="card card-custom p-4 text-center">
+                <p class="text-muted mb-0">No hay libros registrados actualmente.</p>
+            </div>
+        {{end}}
+    </div>
+</div>
+{{end}}

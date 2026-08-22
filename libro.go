@@ -15,6 +15,30 @@ type Usuario struct {
 	contrasena string // Encapsulado (minúscula)
 }
 
+// Getters y Setters para Encapsulación
+func (u *Usuario) SetContrasena(pass string) error {
+	if len(pass) < 6 {
+		return errors.New("la contraseña debe tener al menos 6 caracteres")
+	}
+	u.contrasena = pass
+	return nil
+}
+
+func (u *Usuario) GetContrasena() string {
+	return u.contrasena
+}
+
+// Estructuras Administrador y Lector heredan lógicamente de Usuario
+type Administrador struct {
+	Usuario
+	NivelAcceso int
+}
+
+type Lector struct {
+	Usuario
+	Suscripto bool
+}
+
 // Estructura Libro con anotaciones para Serialización JSON
 type Libro struct {
 	ID         int    `json:"id"`
@@ -33,8 +57,6 @@ func (l Libro) Descargar() (string, error) {
 }
 
 //getters y setters para la estructura Libro
-// get = obtener o leer
-// set = modificar
 func (l *Libro) SetTitulo(titulo string) {
 	l.Titulo = titulo
 }
